@@ -75,6 +75,8 @@ The 8086 microprocessor contains general-purpose registers used for arithmetic a
 
 https://yjdoc2.github.io/8086-emulator-web/
 
+> **Note:** This emulator needs a `start:` label before the first instruction and writes hex values as `0x05` instead of `05H`. The screenshots below use that syntax; the values are the same as in the programs.
+
 ## EXPERIMENT 1: ADDITION
 
 ### AIM:
