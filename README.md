@@ -105,6 +105,25 @@ HLT
 
 **Result:** 05H + 03H = 08H.
 
+### WORKING (BINARY) AND FLAGS:
+
+```text
+  AL = 0000 0101  (05H)
++ BL = 0000 0011  (03H)
+  -----------------
+  AL = 0000 1000  (08H)
+```
+
+| Flag | Value | Reason |
+|---|---|---|
+| CF | 0 | No carry out of bit 7 |
+| ZF | 0 | Result is not zero |
+| SF | 0 | Bit 7 of result is 0 |
+| PF | 0 | 08H has one '1' bit (odd parity) |
+| AF | 0 | No carry from bit 3 to bit 4 (5 + 3 = 8) |
+| OF | 0 | No signed overflow |
+
+
 ## EXPERIMENT 2: SUBTRACTION
 
 ### AIM:
@@ -134,6 +153,25 @@ HLT
 | BL | 04H |
 
 **Result:** 09H - 04H = 05H.
+
+### WORKING (BINARY) AND FLAGS:
+
+```text
+  AL = 0000 1001  (09H)
+- BL = 0000 0100  (04H)
+  -----------------
+  AL = 0000 0101  (05H)
+```
+
+| Flag | Value | Reason |
+|---|---|---|
+| CF | 0 | No borrow needed (09H > 04H) |
+| ZF | 0 | Result is not zero |
+| SF | 0 | Bit 7 of result is 0 |
+| PF | 1 | 05H has two '1' bits (even parity) |
+| AF | 0 | No borrow from bit 4 |
+| OF | 0 | No signed overflow |
+
 
 ## EXPERIMENT 3: MULTIPLICATION
 
@@ -166,6 +204,18 @@ HLT
 
 **Result:** 05H × 04H = 14H.
 
+### WORKING AND FLAGS:
+
+`MUL BL` computes `AX = AL × BL` = 5 × 4 = 20 (decimal) = **0014H**, so AH = 00H and AL = 14H.
+
+| Flag | Value | Reason |
+|---|---|---|
+| CF | 0 | Upper half of the result (AH) is 00H |
+| OF | 0 | Upper half of the result (AH) is 00H |
+
+(SF, ZF, AF and PF are undefined after MUL.)
+
+
 ## EXPERIMENT 4: DIVISION
 
 ### AIM:
@@ -196,6 +246,16 @@ HLT
 | AH | 00H |
 
 **Result:** 14H ÷ 04H = 05H, Remainder = 00H.
+
+### WORKING AND FLAGS:
+
+`DIV BL` divides AX by BL: 0014H = 20 (decimal), and 20 ÷ 4 = **5 remainder 0**.
+
+- Quotient → **AL = 05H**
+- Remainder → **AH = 00H**, so after execution AX = 0005H
+
+All flags are undefined after DIV. If the divisor were 0, or the quotient were larger than FFH, the 8086 would raise a type-0 *divide error* interrupt.
+
 
 ## OUTPUT OF SIMULATION:
 
